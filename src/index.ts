@@ -26,6 +26,7 @@ export type ElectronGoogleOAuth2Options = {
   successRedirectURL: string,
   loopbackInterfaceRedirectionPort: number,
   refocusAfterSuccess: boolean,
+  includeExtraScopes: boolean,
 };
 
 export const defaultElectronGoogleOAuth2Options: ElectronGoogleOAuth2Options = {
@@ -33,6 +34,7 @@ export const defaultElectronGoogleOAuth2Options: ElectronGoogleOAuth2Options = {
   // can't be randomized
   loopbackInterfaceRedirectionPort: 42813,
   refocusAfterSuccess: true,
+  includeExtraScopes: false,
 };
 
 /**
@@ -61,11 +63,13 @@ export default class ElectronGoogleOAuth2 extends EventEmitter {
     options: Partial<ElectronGoogleOAuth2Options> = defaultElectronGoogleOAuth2Options,
   ) {
     super();
-    // Force fetching id_token if not provided
-    if (!scopes.includes('profile')) scopes.push('profile');
-    if (!scopes.includes('email')) scopes.push('email');
-    this.scopes = scopes;
     this.options = { ...defaultElectronGoogleOAuth2Options, ...options };
+    if (this.options.includeExtraScopes) {
+      // Force fetching id_token if not provided
+      if (!scopes.includes('profile')) scopes.push('profile');
+      if (!scopes.includes('email')) scopes.push('email');
+    }
+    this.scopes = scopes;
     this.oauth2Client = new OAuth2Client(
       clientId,
       clientSecret,
