@@ -21,7 +21,7 @@ export default class LoopbackRedirectServer {
   private _server: http.Server;
   private _maybeRedirection: Promise<string>;
 
-  constructor({ port, successRedirectURL, callbackPath }: LoopbackRedirectServerOptions) {
+  constructor({ port, callbackPath }: LoopbackRedirectServerOptions) {
     this._maybeRedirection = new Promise((resolve, reject) => {
       this._server = http.createServer((req, res) => {
         if (req.url && url.parse(req.url).pathname === callbackPath) {
