@@ -16,7 +16,7 @@ export declare type LoopbackRedirectServerOptions = {
 export default class LoopbackRedirectServer {
     private _server;
     private _maybeRedirection;
-    constructor({ port, callbackPath }: LoopbackRedirectServerOptions);
+    constructor({ port, successRedirectURL, callbackPath }: LoopbackRedirectServerOptions);
     /**
      * Will resolve with the exact reached callback URL that contains the Authorization code.
      */
